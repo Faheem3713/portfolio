@@ -49,10 +49,10 @@
         <h1 class="text-light"><a href="index.html">Muhammad Faheem</a></h1>
         <div class="social-links mt-3 text-center">
           <!-- <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a> -->
-          <a href="https://www.facebook.com/mfmtl/" class="facebook"><i class="bx bxl-facebook"></i></a>
-          <a href="https://www.instagram.com/_fa_h_ee_m/" class="instagram"><i class="bx bxl-instagram"></i></a>
-          <a href="https://github.com/Faheem3713" class="github"><i class="bx bxl-github"></i></a>
-          <a href="https://www.linkedin.com/in/muhammad-faheem-922299217/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+          <a href="https://www.facebook.com/mfmtl/" class="facebook"><i target="_blank" class="bx bxl-facebook"></i></a>
+          <a href="https://www.instagram.com/_fa_h_ee_m/" target="_blank" class="instagram"><i target="_blank" class="bx bxl-instagram"></i></a>
+          <a href="https://github.com/Faheem3713" target="_blank" class="github"><i target="_blank" class="bx bxl-github"></i></a>
+          <a href="https://www.linkedin.com/in/muhammad-faheem-922299217/" target="_blank" class="linkedin"><i class="bx bxl-linkedin"></i></a>
         </div>
       </div>
 
@@ -379,15 +379,19 @@
 
           
           <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
-            <form action="forms" method="post" role="form" class="php-email-form" name="contact us" id="form-as">
+            <!-- <form  method="post" class="php-email-form" name="contactForm" id="form-as" onsubmit="return validateForm()" >
               <div class="row">
                 <div class="form-group col-md-6">
                   <label for="name">Your Name</label>
-                  <input type="text" name="name" class="form-control" id="name" >
+                  <input type="text" name="name" class="form-control" i>
+                 
                 </div>
+                <div id="nameErr"></div>
+                
+                <div class="error" id="nameErr"></div>
                 <div class="form-group col-md-6">
                   <label for="name">Your Email</label>
-                  <input type="email" class="form-control" name="email" id="email" >
+                  <input type="email" class="form-control" name="email" id="email">
                 </div>
               </div>
               <div class="form-group">
@@ -399,12 +403,44 @@
                 <textarea class="form-control" name="message" rows="10"></textarea>
               </div>
               <div class="my-3">
-                <!-- <div class="loading msg">Loading</div>
-                <div class="error-message"> </div> -->
-                <div class="sent-message">Your message has been sent. Thank you!</div>
+              
               </div>
-              <div class="text-center "><button type="submit" id="butns" style="color:rgb(255, 255, 255) ;" >Send Message</button></div>
-            </form>
+              <div class="row">
+                  <input type="submit" value="Submit" style="background-color: cadetblue;">
+              </div>
+            </form> -->
+
+            <form name="contactForm" onsubmit="return validateForm()" class="php-email-form"  method="post" id="formid">
+             
+            
+              <div class="row">
+                  <label>Full Name</label>
+                  <input type="text" class="form-control" name="name">
+                  <div class="error" id="nameErr"></div>
+
+              </div>
+              <div class="row">
+                  <label>Email Address</label>
+                  <input type="text" class="form-control" name="email">
+                  <div class="error" id="emailErr"></div>
+              </div>
+              <div class="row">
+                  <label>Mobile Number</label>
+                  <input type="text" class="form-control" name="mobile" maxlength="10">
+                  <div class="error" id="mobileErr"></div>
+              </div>
+               <div class="row">
+                          <label for="name">Message</label>
+                          <textarea  class="form-control" name="message" rows="5"></textarea>
+                        </div>
+                        <div class="error" id="messageErr"></div>
+             
+              
+              <div class="row">
+                  <input type="submit" value="Sent message" style="color:rgb(255, 255, 255);background-color: cornflowerblue;">
+              </div>
+          </form>
+
           </div>
 
         </div>
@@ -435,58 +471,118 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 <script>
-  $("form[name='contact us']").validate({
-      rules: {
-          name : {
-            required      : true,
-          },
-    email : {
-            required      : true,
-      email 		: true
-          },
-    
-    message : {
-            required      : true,
-          },
-          subject: {
-         required: true, 
-      }
-      },
-      messages: {
-          name       : "This field is required.",
-      },
-     
-      submitHandler: function(form) {
-    jQuery('#msg').html('Please wait...');
-    jQuery('#form-as').attr('disabled',true);
-    jQuery.ajax({
-      url:"https://script.google.com/macros/s/AKfycbw9KCuIVX2E4u2KSEWQ1bQ6Qtk-pyifnfOoxwK-9PXPHC1mQq8rl8bMv6J_FiVdJHJ9/exec",
-      type:'post',
-      data:jQuery('#form-as').serialize(),
-      success:function(result){
-      console.log(result.result);
-      if(result.result =='success'){
-        Swal.fire(
-          'Success!',
-          'Will contact you soon',
-          'success'
-        );
-      }else{
-      Swal.fire({
-        icon: 'error',
-        title: 'Oops...',
-        text: 'Something went wrong!',
-        })
-        }
-      jQuery('#form-as')[0].reset();
-      jQuery('#msg').html('Thank You');
-      jQuery('#btnSubmit').attr('disabled',false);
-      }
-    });
-      }
-  });
+  // Defining a function to display error message
+  function printError(elemId, hintMsg) {
+      document.getElementById(elemId).innerHTML = hintMsg;
+  }
   
-</script>
+  // Defining a function to validate form 
+  function validateForm() {
+      // Retrieving the values of form elements 
+      var name = document.contactForm.name.value;
+      var email = document.contactForm.email.value;
+      var mobile = document.contactForm.mobile.value;
+      var message = document.contactForm.message.value;
+      
+  
+      
+    // Defining error variables with a default value
+      var nameErr = emailErr = mobileErr = messageErr = true;
+      
+      // Validate name
+      if(name == "") {
+          printError("nameErr", "Please enter your name");
+      } else {
+          var regex = /^[a-zA-Z\s]+$/;                
+          if(regex.test(name) === false) {
+              printError("nameErr", "Please enter a valid name");
+          } else {
+              printError("nameErr", "");
+              nameErr = false;
+          }
+      }
+      
+      // Validate email address
+      if(email == "") {
+          printError("emailErr", "Please enter your email address");
+      } else {
+          // Regular expression for basic email validation
+          var regex = /^\S+@\S+\.\S+$/;
+          if(regex.test(email) === false) {
+              printError("emailErr", "Please enter a valid email address");
+          } else{
+              printError("emailErr", "");
+              emailErr = false;
+          }
+      }
+      
+      // Validate mobile number
+      if(mobile == "") {
+          printError("mobileErr", "Please enter your mobile number");
+      } else {
+          var regex = /^[1-9]\d{9}$/;
+          if(regex.test(mobile) === false) {
+              printError("mobileErr", "Please enter a valid 10 digit mobile number");
+
+} else{
+              printError("mobileErr", "");
+              mobileErr = false;
+          }
+      }
+      
+      // Validate message
+
+      if(message == "") {
+      printError("messageErr", "Please enter the message");
+    }else{
+      printError("messageErr", "");
+      messageErr = false;
+    }
+      
+      // Validate gender
+  
+      
+      // Prevent the form from being submitted if there are any errors
+      if((nameErr || emailErr || mobileErr || messageErr) != true) {
+      var form = document.getElementById('formid');
+      var xhr = new XMLHttpRequest();
+      var data = new FormData(form);
+      console.log(data);
+      xhr.open('POST','https://script.google.com/macros/s/AKfycbw9KCuIVX2E4u2KSEWQ1bQ6Qtk-pyifnfOoxwK-9PXPHC1mQq8rl8bMv6J_FiVdJHJ9/exec')
+
+      xhr.send(data);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+          Swal.fire({
+  icon: 'success',
+  title: 'Submit Successful',
+  showConfirmButton: false,
+  timer: 1500
+})
+          form.reset();
+        }
+      }
+      //Dont submit the form.
+      return false; 
+    }else{
+      Swal.fire({
+  icon: 'error',
+  title: 'Oops...',
+  text: 'Something went wrong!',
+
+})
+      return false;
+    }
+  };
+
+  
+ 
+ 
+ 
+ 
+ 
+  </script>
+
 
 
 </body>
