@@ -498,6 +498,7 @@
               printError("nameErr", "Please enter a valid name");
           } else {
               printError("nameErr", "");
+
               nameErr = false;
           }
       }
@@ -511,7 +512,7 @@
           if(regex.test(email) === false) {
               printError("emailErr", "Please enter a valid email address");
           } else{
-              printError("emailErr", "");
+               printError("emailErr", "");
               emailErr = false;
           }
       }
@@ -574,14 +575,7 @@
       return false;
     }
   };
-
-  
- 
- 
- 
- 
- 
-  </script>
+ </script>
 
 
 
